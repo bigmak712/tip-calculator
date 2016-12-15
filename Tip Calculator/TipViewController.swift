@@ -15,9 +15,17 @@ class ViewController: UIViewController {
     @IBOutlet weak var billField: UITextField!
     @IBOutlet weak var tipControl: UISegmentedControl!
     
+    @IBOutlet weak var roundedTipLabel: UILabel!
+    @IBOutlet weak var roundedTotalLabel: UILabel!
+    @IBOutlet weak var roundedTipValue: UILabel!
+    @IBOutlet weak var roundedTotalValue: UILabel!
+    
     let tipPercentages = [0.1, 0.15, 0.18]
     var tipPercent = 0.0
     let tipKey = "default_tip_percentage"
+    
+    var showRounded = false
+    let roundedKey = "show/hide rounded"
     
     let defaults = UserDefaults.standard
     
@@ -26,13 +34,30 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         tipPercent = tipPercentages[tipControl.selectedSegmentIndex]
         defaults.set(tipPercent, forKey: tipKey)
+        defaults.set(false, forKey: roundedKey)
+        
         defaults.synchronize()
-
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func hideRoundedLabels(){
+        roundedTipLabel.isHidden = true
+        roundedTotalLabel.isHidden = true
+        roundedTipValue.isHidden = true
+        roundedTotalValue.isHidden = true
+    }
+    
+    func showRoundedLabels(){
+        roundedTipLabel.isHidden = false
+        roundedTotalLabel.isHidden = false
+        roundedTipValue.isHidden = false
+        roundedTotalValue.isHidden = false
     }
 
     @IBAction func onTap(_ sender: Any) {
@@ -74,8 +99,16 @@ class ViewController: UIViewController {
         else{
             tipControl.selectedSegmentIndex = 2
         }
-        
         calculateTip(self)
+        
+        let rounded = defaults.bool(forKey: roundedKey)
+        
+        if(rounded){
+            showRoundedLabels()
+        }
+        else{
+            hideRoundedLabels()
+        }
     }
     
 }

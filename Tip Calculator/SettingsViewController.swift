@@ -11,10 +11,14 @@ import UIKit
 class SettingsViewController: UIViewController {
     
     @IBOutlet weak var settingsTipSegment: UISegmentedControl!
+    @IBOutlet weak var roundedButton: UIButton!
     
     let tipPercentages = [0.1, 0.15, 0.18]
     var tipPercent = 0.0
     let tipKey = "default_tip_percentage"
+    let roundedKey = "show/hide rounded"
+    var roundedShown = false
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +32,8 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func setDefaultTip(_ sender: Any) {
-        let defaults = UserDefaults.standard
+        
+        //set the default tip percentage and save it
         defaults.set(tipPercentages[settingsTipSegment.selectedSegmentIndex], forKey: tipKey)
         defaults.synchronize()
     }
@@ -36,8 +41,7 @@ class SettingsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        //load the key
-        let defaults = UserDefaults.standard
+        //load the tip key
         tipPercent = defaults.double(forKey: tipKey)
         
         if(tipPercent == tipPercentages[0]){
@@ -49,5 +53,38 @@ class SettingsViewController: UIViewController {
         else{
             settingsTipSegment.selectedSegmentIndex = 2
         }
+        
+        let rounded = defaults.bool(forKey: roundedKey)
+        
+        if(rounded){
+            roundedButton.setTitle("Hide Rounded Tip/Total", for: .normal)
+            roundedShown = true
+        }
+        else{
+            roundedButton.setTitle("Show Rounded Tip/Total", for: .normal)
+            roundedShown = false
+        }
     }
+    
+    @IBAction func switchRounded(_ sender: Any) {
+        
+        // Hide the rounded tip/total
+        if(roundedShown){
+            roundedButton.setTitle("Show Rounded Tip/Total", for: .normal)
+            defaults.set(false, forKey: roundedKey)
+            defaults.synchronize()
+        }
+            
+        // Show the rounded tip/total
+        else{
+            roundedButton.setTitle("Hide Rounded Tip/Total", for: .normal)
+            defaults.set(true, forKey: roundedKey)
+            defaults.synchronize()
+        }
+        
+        roundedShown = !roundedShown
+    }
+    
+    
+    
 }
