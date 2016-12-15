@@ -20,6 +20,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var roundedTipValue: UILabel!
     @IBOutlet weak var roundedTotalValue: UILabel!
     
+    
+    
     let tipPercentages = [0.1, 0.15, 0.18]
     var tipPercent = 0.0
     let tipKey = "default_tip_percentage"
@@ -37,7 +39,6 @@ class ViewController: UIViewController {
         defaults.set(false, forKey: roundedKey)
         
         defaults.synchronize()
-        
         
     }
 
@@ -71,10 +72,14 @@ class ViewController: UIViewController {
         let bill = Double(billField.text!) ?? 0
         let tip = (bill * tipPercent)
         let total = bill + tip
+        let roundedTotal = round(total)
+        let roundedTip = roundedTotal - bill
         
         //set the labels
         tipLabel.text = String(format: "$%.2f", tip)
         totalLabel.text = String(format: "$%.2f", total)
+        roundedTipValue.text = String(format: "$%.2f", roundedTip)
+        roundedTotalValue.text = String(format: "$%.2f", roundedTotal)
         
     }
 
@@ -88,6 +93,10 @@ class ViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+        // Make the keyboard automatically appear
+        billField.becomeFirstResponder()
+        
         tipPercent = defaults.double(forKey: tipKey)
         
         if(tipPercent == tipPercentages[0]){

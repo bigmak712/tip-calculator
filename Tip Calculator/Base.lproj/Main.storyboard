@@ -211,17 +211,30 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="180" id="ntK-3U-RJt"/>
                                 </constraints>
+                                <state key="normal" title="Button"/>
                                 <connections>
                                     <action selector="switchRounded:" destination="j4O-cz-NYS" eventType="touchUpInside" id="12c-g3-Dba"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sey-dR-OIw">
+                                <rect key="frame" x="88" y="319" width="200" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="44h-47-huH"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="switchSplit:" destination="j4O-cz-NYS" eventType="touchUpInside" id="Njo-15-D6g"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="SFH-aP-hYq" firstAttribute="leading" secondItem="Vtg-xN-bOk" secondAttribute="leadingMargin" id="1Z6-RN-3CN"/>
+                            <constraint firstItem="Sey-dR-OIw" firstAttribute="centerX" secondItem="Vtg-xN-bOk" secondAttribute="centerX" id="1gm-Nm-KyA"/>
                             <constraint firstItem="SFH-aP-hYq" firstAttribute="centerX" secondItem="Vtg-xN-bOk" secondAttribute="centerX" id="1mb-5u-qfO"/>
                             <constraint firstItem="SFH-aP-hYq" firstAttribute="top" secondItem="5fy-Pq-uSt" secondAttribute="bottom" constant="44" id="3v6-ZK-WIQ"/>
                             <constraint firstItem="Xxc-H5-EVx" firstAttribute="top" secondItem="SFH-aP-hYq" secondAttribute="bottom" constant="44" id="94H-Fr-kYg"/>
+                            <constraint firstItem="Sey-dR-OIw" firstAttribute="top" secondItem="Xxc-H5-EVx" secondAttribute="bottom" constant="44" id="CYR-6W-XLa"/>
                             <constraint firstItem="SFH-aP-hYq" firstAttribute="trailing" secondItem="Vtg-xN-bOk" secondAttribute="trailingMargin" id="PFs-Js-NLg"/>
                             <constraint firstItem="5fy-Pq-uSt" firstAttribute="top" secondItem="xhq-Mi-99F" secondAttribute="bottom" constant="44" id="Y61-eo-8kC"/>
                             <constraint firstItem="5fy-Pq-uSt" firstAttribute="centerX" secondItem="Vtg-xN-bOk" secondAttribute="centerX" id="cYm-hw-NBd"/>
@@ -232,6 +245,7 @@
                     <connections>
                         <outlet property="roundedButton" destination="Xxc-H5-EVx" id="qjF-n9-upi"/>
                         <outlet property="settingsTipSegment" destination="SFH-aP-hYq" id="8XU-xF-iy7"/>
+                        <outlet property="splitButton" destination="Sey-dR-OIw" id="nWg-cz-lrD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cO4-nW-eEr" userLabel="First Responder" sceneMemberID="firstResponder"/>

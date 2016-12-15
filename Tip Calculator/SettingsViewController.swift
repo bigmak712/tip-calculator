@@ -12,12 +12,16 @@ class SettingsViewController: UIViewController {
     
     @IBOutlet weak var settingsTipSegment: UISegmentedControl!
     @IBOutlet weak var roundedButton: UIButton!
+    @IBOutlet weak var splitButton: UIButton!
+    
     
     let tipPercentages = [0.1, 0.15, 0.18]
     var tipPercent = 0.0
     let tipKey = "default_tip_percentage"
     let roundedKey = "show/hide rounded"
+    let splitKey = "show/hide split"
     var roundedShown = false
+    var splitShown = false
     let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
@@ -85,6 +89,24 @@ class SettingsViewController: UIViewController {
         roundedShown = !roundedShown
     }
     
+    @IBAction func switchSplit(_ sender: Any) {
+        
+        // Set text to enable split option
+        if(splitShown){
+            splitButton.setTitle("Enable Split Check Option", for: .normal)
+            defaults.set(false, forKey: splitKey)
+            defaults.synchronize()
+        }
+        
+        // Set text to disable split option
+        else{
+            splitButton.setTitle("Disable Split Check Option", for: .normal)
+            defaults.set(true, forKey: splitKey)
+            defaults.synchronize()
+        }
+        
+        splitShown = !splitShown
+    }
     
     
 }
