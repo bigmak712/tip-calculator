@@ -9,18 +9,19 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
+    @IBOutlet weak var tipTitle: UILabel!
+    @IBOutlet weak var totalTitle: UILabel!
+    
     @IBOutlet weak var tipLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var billField: UITextField!
     @IBOutlet weak var tipControl: UISegmentedControl!
     
-    @IBOutlet weak var roundedTipLabel: UILabel!
-    @IBOutlet weak var roundedTotalLabel: UILabel!
-    @IBOutlet weak var roundedTipValue: UILabel!
-    @IBOutlet weak var roundedTotalValue: UILabel!
-    
-    
+    @IBOutlet weak var splitPersonLabel: UILabel!
+    @IBOutlet weak var splitTotalLabel: UILabel!
+    @IBOutlet weak var splitField: UITextField!
+    @IBOutlet weak var splitTotalValue: UILabel!
     
     let tipPercentages = [0.1, 0.15, 0.18]
     var tipPercent = 0.0
@@ -28,6 +29,8 @@ class ViewController: UIViewController {
     
     var showRounded = false
     let roundedKey = "show/hide rounded"
+    
+    let splitKey = "show/hide split"
     
     let defaults = UserDefaults.standard
     
@@ -47,24 +50,23 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func hideRoundedLabels(){
-        roundedTipLabel.isHidden = true
-        roundedTotalLabel.isHidden = true
-        roundedTipValue.isHidden = true
-        roundedTotalValue.isHidden = true
-    }
-    
-    func showRoundedLabels(){
-        roundedTipLabel.isHidden = false
-        roundedTotalLabel.isHidden = false
-        roundedTipValue.isHidden = false
-        roundedTotalValue.isHidden = false
-    }
-
     @IBAction func onTap(_ sender: Any) {
         view.endEditing(true)
     }
     
+    func showSplitLabels(){
+        splitPersonLabel.isHidden = false
+        splitTotalLabel.isHidden = false
+        splitField.isHidden = false
+        splitTotalValue.isHidden = false
+    }
+    
+    func hideSplitLabels(){
+        splitPersonLabel.isHidden = true
+        splitTotalLabel.isHidden = true
+        splitField.isHidden = true
+        splitTotalValue.isHidden = true
+    }
     
     @IBAction func calculateTip(_ sender: Any) {
         
@@ -78,8 +80,21 @@ class ViewController: UIViewController {
         //set the labels
         tipLabel.text = String(format: "$%.2f", tip)
         totalLabel.text = String(format: "$%.2f", total)
-        roundedTipValue.text = String(format: "$%.2f", roundedTip)
-        roundedTotalValue.text = String(format: "$%.2f", roundedTotal)
+        
+        let rounded = defaults.bool(forKey: roundedKey)
+        
+        if(rounded){
+            tipTitle.text = "Tip (Rounded)"
+            totalTitle.text = "Total (Rounded)"
+            tipLabel.text = tipLabel.text! + " (" + String(format: "$%.2f", roundedTip) + ")"
+            totalLabel.text = totalLabel.text! + " (" + String(format: "$%.2f", roundedTotal) + ")"
+        }
+        else{
+            tipTitle.text = "Tip"
+            totalTitle.text = "Total"
+            tipLabel.text = tipLabel.text!
+            totalLabel.text = totalLabel.text!
+        }
         
     }
 
@@ -110,14 +125,15 @@ class ViewController: UIViewController {
         }
         calculateTip(self)
         
-        let rounded = defaults.bool(forKey: roundedKey)
+        let split = defaults.bool(forKey: splitKey)
         
-        if(rounded){
-            showRoundedLabels()
+        if(split){
+            showSplitLabels()
         }
         else{
-            hideRoundedLabels()
+            hideSplitLabels()
         }
+
     }
     
 }

@@ -58,6 +58,7 @@ class SettingsViewController: UIViewController {
             settingsTipSegment.selectedSegmentIndex = 2
         }
         
+        //load the rounded key
         let rounded = defaults.bool(forKey: roundedKey)
         
         if(rounded){
@@ -67,6 +68,18 @@ class SettingsViewController: UIViewController {
         else{
             roundedButton.setTitle("Show Rounded Tip/Total", for: .normal)
             roundedShown = false
+        }
+        
+        //load the split key
+        let split = defaults.bool(forKey: splitKey)
+        
+        if(split){
+            splitButton.setTitle("Disable Split Check Option", for: .normal)
+            splitShown = true
+        }
+        else{
+            splitButton.setTitle("Enable Split Check Option", for: .normal)
+            splitShown = false
         }
     }
     
