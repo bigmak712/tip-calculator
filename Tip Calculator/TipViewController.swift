@@ -23,7 +23,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var splitField: UITextField!
     @IBOutlet weak var splitTotalValue: UILabel!
     
-    let tipPercentages = [0.1, 0.15, 0.18]
+    var tipPercentages = [0.1, 0.15, 0.18]
     var tipPercent = 0.0
     let tipKey = "default_tip_percentage"
     
@@ -32,11 +32,16 @@ class ViewController: UIViewController {
     
     let splitKey = "show/hide split"
     
+    let customTipKey1 = "custom tip key 1"
+    let customTipKey2 = "custom tip key 2"
+    let customTipKey3 = "custom tip key 3"
+    
     let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
         tipPercent = tipPercentages[tipControl.selectedSegmentIndex]
         defaults.set(tipPercent, forKey: tipKey)
         defaults.set(false, forKey: roundedKey)
@@ -76,10 +81,17 @@ class ViewController: UIViewController {
         let total = bill + tip
         let roundedTotal = round(total)
         let roundedTip = roundedTotal - bill
+        var numOfSplits = Double(splitField.text!) ?? 1
+        if(numOfSplits < 1){
+            numOfSplits = 1
+        }
+        
+        let splitTotal = total/numOfSplits
         
         //set the labels
         tipLabel.text = String(format: "$%.2f", tip)
         totalLabel.text = String(format: "$%.2f", total)
+        splitTotalValue.text = String(format: "$%.2f", splitTotal)
         
         let rounded = defaults.bool(forKey: roundedKey)
         
@@ -107,11 +119,35 @@ class ViewController: UIViewController {
         defaults.synchronize()
     }
     
+    @IBAction func splitPersonsChange(_ sender: Any) {
+        calculateTip(self)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         
         // Make the keyboard automatically appear
         billField.becomeFirstResponder()
         
+        // Get the custom tip percentages
+        var custom1 = defaults.double(forKey: customTipKey1)
+        var custom2 = defaults.double(forKey: customTipKey2)
+        var custom3 = defaults.double(forKey: customTipKey3)
+
+        // Set the values in the tipPercentages array
+        tipPercentages[0] = custom1
+        tipPercentages[1] = custom2
+        tipPercentages[2] = custom3
+        
+        // Multiply the custom tip percentages by 100
+        custom1 = custom1 * 100
+        custom2 = custom2 * 100
+        custom3 = custom3 * 100
+
+        // Set the titles in the segment control to the custom tip percentages
+        tipControl.setTitle(String(format: "%.0f", custom1) + "%", forSegmentAt: 0)
+        tipControl.setTitle(String(format: "%.0f", custom2) + "%", forSegmentAt: 1)
+        tipControl.setTitle(String(format: "%.0f", custom3) + "%", forSegmentAt: 2)
+
         tipPercent = defaults.double(forKey: tipKey)
         
         if(tipPercent == tipPercentages[0]){

@@ -14,14 +14,22 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var roundedButton: UIButton!
     @IBOutlet weak var splitButton: UIButton!
     
+    @IBOutlet weak var customTip1: UITextField!
+    @IBOutlet weak var customTip2: UITextField!
+    @IBOutlet weak var customTip3: UITextField!
     
-    let tipPercentages = [0.1, 0.15, 0.18]
+    var tipPercentages = [0.1, 0.15, 0.18]
     var tipPercent = 0.0
     let tipKey = "default_tip_percentage"
     let roundedKey = "show/hide rounded"
     let splitKey = "show/hide split"
     var roundedShown = false
     var splitShown = false
+    
+    let customTipKey1 = "custom tip key 1"
+    let customTipKey2 = "custom tip key 2"
+    let customTipKey3 = "custom tip key 3"
+    
     let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
@@ -35,6 +43,10 @@ class SettingsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func onTap(_ sender: Any) {
+        view.endEditing(true)
+    }
+    
     @IBAction func setDefaultTip(_ sender: Any) {
         
         //set the default tip percentage and save it
@@ -45,7 +57,21 @@ class SettingsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        //load the tip key
+        //load the segmented control values
+        var custom1 = defaults.double(forKey: customTipKey1)
+        var custom2 = defaults.double(forKey: customTipKey2)
+        var custom3 = defaults.double(forKey: customTipKey3)
+        
+        custom1 = custom1 * 100
+        custom2 = custom2 * 100
+        custom3 = custom3 * 100
+        
+        settingsTipSegment.setTitle(String(format: "%.0f", custom1) + "%", forSegmentAt: 0)
+        settingsTipSegment.setTitle(String(format: "%.0f", custom2) + "%", forSegmentAt: 1)
+        settingsTipSegment.setTitle(String(format: "%.0f", custom3) + "%", forSegmentAt: 2)
+
+        
+        //load the default tip key
         tipPercent = defaults.double(forKey: tipKey)
         
         if(tipPercent == tipPercentages[0]){
@@ -81,6 +107,24 @@ class SettingsViewController: UIViewController {
             splitButton.setTitle("Enable Split Check Option", for: .normal)
             splitShown = false
         }
+    }
+    
+    @IBAction func changeCustomTip1(_ sender: Any) {
+        var tip1 = (Double(customTip1.text!) ?? tipPercentages[0])
+        
+        if(tip1 > 0){
+            
+            settingsTipSegment.setTitle(String(format: "%.0f", tip1) + "%", forSegmentAt: 0)
+            
+            tip1 = tip1 / 100
+            
+            tipPercentages[0] = tip1
+            defaults.set(tip1, forKey: customTipKey1)
+            defaults.synchronize()
+            
+            setDefaultTip(self)
+        }
+
     }
     
     @IBAction func switchRounded(_ sender: Any) {
