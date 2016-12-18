@@ -94,8 +94,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Per Person" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gFd-3L-uSW">
-                                <rect key="frame" x="16" y="307" width="125" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Split Total" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gFd-3L-uSW">
+                                <rect key="frame" x="16" y="307" width="76" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -161,7 +161,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="barDivider" destination="m1O-C5-hRk" id="Fer-tc-cSR"/>
                         <outlet property="billField" destination="Cn6-Fa-Tzt" id="6vd-Od-MKH"/>
+                        <outlet property="billTitle" destination="cdX-WJ-LY0" id="rnq-su-W8d"/>
                         <outlet property="splitField" destination="Ucu-37-k0i" id="Fb4-c8-Kdu"/>
                         <outlet property="splitPersonLabel" destination="Li5-or-1Ra" id="3PP-wI-Ogh"/>
                         <outlet property="splitTotalLabel" destination="gFd-3L-uSW" id="q93-wa-mGW"/>
@@ -268,6 +270,9 @@
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                <connections>
+                                    <action selector="changeCustomTip2:" destination="j4O-cz-NYS" eventType="editingChanged" id="Vc5-bw-EFS"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oy0-v1-peV">
                                 <rect key="frame" x="315" y="311" width="50" height="30"/>
@@ -277,6 +282,9 @@
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                <connections>
+                                    <action selector="changeCustomTip3:" destination="j4O-cz-NYS" eventType="editingChanged" id="obj-AQ-gUn"/>
+                                </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xxc-H5-EVx">
                                 <rect key="frame" x="98" y="365" width="180" height="30"/>
@@ -325,6 +333,10 @@
                         <outlet property="customTip2" destination="5Kv-eN-4HQ" id="c94-r4-fzP"/>
                         <outlet property="customTip3" destination="oy0-v1-peV" id="SCs-9A-Mcu"/>
                         <outlet property="roundedButton" destination="Xxc-H5-EVx" id="qjF-n9-upi"/>
+                        <outlet property="setDefaultTipTitle" destination="5fy-Pq-uSt" id="fHS-YZ-TI0"/>
+                        <outlet property="setFirstTipTitle" destination="Hno-Py-r8Y" id="jni-E0-r3M"/>
+                        <outlet property="setSecondTipTitle" destination="9tw-G6-34I" id="Kc1-b3-4Ee"/>
+                        <outlet property="setThirdTipTitle" destination="CnF-Ab-wcw" id="cXK-YO-5xW"/>
                         <outlet property="settingsTipSegment" destination="SFH-aP-hYq" id="8XU-xF-iy7"/>
                         <outlet property="splitButton" destination="Sey-dR-OIw" id="nWg-cz-lrD"/>
                     </connections>
