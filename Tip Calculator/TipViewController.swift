@@ -25,7 +25,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var splitField: UITextField!
     @IBOutlet weak var splitTotalValue: UILabel!
     
-    var tipPercentages = [0.1, 0.15, 0.18]
+    var tipPercentages = [0.15, 0.18, 0.2]
     var tipPercent = 0.0
     let tipKey = "default_tip_percentage"
     
@@ -53,10 +53,10 @@ class ViewController: UIViewController {
         barDivider.backgroundColor = UIColor .white
         tipLabel.textColor = UIColor .white
         totalLabel.textColor = UIColor .white
-        billField.textColor = UIColor .black
+        billField.textColor = customGreen
         splitPersonLabel.textColor = UIColor .white
         splitTotalLabel.textColor = UIColor .white
-        splitField.textColor = UIColor .white
+        splitField.textColor = customGreen
         splitTotalValue.textColor = UIColor .white
         tipControl.tintColor = UIColor .white
         
@@ -64,7 +64,7 @@ class ViewController: UIViewController {
         tipControl.selectedSegmentIndex = 0
         
         // Set the initial tipPercent
-        defaults.set(tipPercentages[0], forKey: tipKey)
+        //defaults.set(tipPercentages[0], forKey: tipKey)
         
         // Set the rounded tip/total and split check option to false
         defaults.set(false, forKey: roundedKey)
@@ -159,6 +159,17 @@ class ViewController: UIViewController {
         var custom1 = defaults.double(forKey: customTipKey1)
         var custom2 = defaults.double(forKey: customTipKey2)
         var custom3 = defaults.double(forKey: customTipKey3)
+        
+        // If any tip percentages are 0%, set them to the default tipPercentages
+        if(custom1 == 0){
+            custom1 = tipPercentages[0]
+        }
+        if(custom2 == 0){
+            custom2 = tipPercentages[1]
+        }
+        if(custom3 == 0){
+            custom3 = tipPercentages[2]
+        }
 
         // Set the values in the tipPercentages array
         tipPercentages[0] = custom1
