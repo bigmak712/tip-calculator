@@ -8,6 +8,12 @@
 
 import UIKit
 
+/*
+ * Description: View Controller in charge of containing the settings 
+ * where the user can set the tip percentage, change the tip percentage
+ * values, enable/disable the rounded tip/total option, or show/hide the
+ * split check total.
+ */
 class SettingsViewController: UIViewController {
     
     @IBOutlet weak var setDefaultTipTitle: UILabel!
@@ -15,40 +21,55 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var setSecondTipTitle: UILabel!
     @IBOutlet weak var setThirdTipTitle: UILabel!
     
+    // SegmentedControl
     @IBOutlet weak var settingsTipSegment: UISegmentedControl!
+    
+    // Buttons to enable/disable the rounded option or split check option
     @IBOutlet weak var roundedButton: UIButton!
     @IBOutlet weak var splitButton: UIButton!
     
+    // Text field where the user can change the default tip percentages
     @IBOutlet weak var customTip1: UITextField!
     @IBOutlet weak var customTip2: UITextField!
     @IBOutlet weak var customTip3: UITextField!
     
+    // Default tip values
     let defaultTip1 = 0.15
     let defaultTip2 = 0.18
-    let defaultTip3 = 0.2
+    let defaultTip3 = 0.20
     
+    // Array containing the tip percentages
     var tipPercentages = [0.15, 0.18, 0.2]
+    
+    // Tip percentages that is currently being used
     var tipPercent = 0.0
-    let tipKey = "default_tip_percentage"
-    let roundedKey = "show/hide rounded"
-    let splitKey = "show/hide split"
+    
+    // Boolean values used to see if the rounded or split options were enabled
     var roundedShown = false
     var splitShown = false
     
+    // Used to set the border width and radius of the rounded and split check buttons
+    let buttonBorderWidth = CGFloat(1)
+    let buttonCornerRadius = CGFloat(5)
+    
+    // Custom green color used for the app background and the letters
+    let customGreen = UIColor(red:0.1098, green: 0.4078, blue: 0.0118, alpha: 1.0)
+    
+    // Used to save/load values
+    let defaults = UserDefaults.standard
+    
+    // Key values used to save/load the current and default tip percentages, rounded boolean, and split boolean
+    let tipKey = "default_tip_percentage"
+    let roundedKey = "show/hide rounded"
+    let splitKey = "show/hide split"
     let customTipKey1 = "custom tip key 1"
     let customTipKey2 = "custom tip key 2"
     let customTipKey3 = "custom tip key 3"
     
-    let buttonBorderWidth = CGFloat(1)
-    let buttonCornerRadius = CGFloat(5)
-    
-    let customGreen = UIColor(red:0.1098, green: 0.4078, blue: 0.0118, alpha: 1.0)
-    
-    let defaults = UserDefaults.standard
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Set the colors of the settings view controller
         self.view.backgroundColor = customGreen
         setDefaultTipTitle.textColor = UIColor.white
         setFirstTipTitle.textColor = UIColor.white
@@ -71,7 +92,6 @@ class SettingsViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @IBAction func onTap(_ sender: Any) {
@@ -80,7 +100,7 @@ class SettingsViewController: UIViewController {
     
     @IBAction func setDefaultTip(_ sender: Any) {
         
-        //set the default tip percentage and save it
+        // Set the default tip percentage and save it
         defaults.set(tipPercentages[settingsTipSegment.selectedSegmentIndex], forKey: tipKey)
         defaults.synchronize()
     }
@@ -148,7 +168,7 @@ class SettingsViewController: UIViewController {
             roundedShown = false
         }
         
-        //load the split key
+        // Load the split key
         let split = defaults.bool(forKey: splitKey)
         
         // Split Check enabled - set the button to disable and set the split boolean to true

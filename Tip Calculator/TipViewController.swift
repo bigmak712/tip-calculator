@@ -8,44 +8,61 @@
 
 import UIKit
 
+/*
+ * Description: View Controller that is in charge of the actual tip 
+ * calculator view where the user will be inputting the bill amount,
+ * selecting the tip percentage, and viewing the total amount.
+ */
 class ViewController: UIViewController {
     
+    // Labels that notate the bill, tip, and total amount
     @IBOutlet weak var billTitle: UILabel!
     @IBOutlet weak var tipTitle: UILabel!
     @IBOutlet weak var totalTitle: UILabel!
+    
+    // Bar divider that seperates the bill and tip from the total
     @IBOutlet weak var barDivider: UIView!
     
+    // Labels that show the tip/total amount
     @IBOutlet weak var tipLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
+    
+    // Text field that the user inputs the bill amount
     @IBOutlet weak var billField: UITextField!
+    
+    // SegmentedControl that shows the tip percentage
     @IBOutlet weak var tipControl: UISegmentedControl!
     
+    // Labels and text field for the split check option
     @IBOutlet weak var splitPersonLabel: UILabel!
     @IBOutlet weak var splitTotalLabel: UILabel!
     @IBOutlet weak var splitField: UITextField!
     @IBOutlet weak var splitTotalValue: UILabel!
     
+    // Default tip percentages that are initially set
     var tipPercentages = [0.15, 0.18, 0.2]
+    
+    // Default tip percentage that is currently being used
     var tipPercent = 0.0
+    
+    // Used to save and load saved values
+    let defaults = UserDefaults.standard
+    
+    // Keys used to save/load the tip percentage, rounded boolean, split boolean, and the custom tip percentages
     let tipKey = "default_tip_percentage"
-    
-    var showRounded = false
     let roundedKey = "show/hide rounded"
-    
     let splitKey = "show/hide split"
-    
     let customTipKey1 = "custom tip key 1"
     let customTipKey2 = "custom tip key 2"
     let customTipKey3 = "custom tip key 3"
     
+    // Custom green color for the app background and the letters
     let customGreen = UIColor(red:0.1098, green: 0.4078, blue: 0.0118, alpha: 1.0)
-    
-    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
+        // Set the color of the tip calculator view controller to be green/white
         self.view.backgroundColor = customGreen
         billTitle.textColor = UIColor .white
         tipTitle.textColor = UIColor .white
@@ -63,13 +80,9 @@ class ViewController: UIViewController {
         // Set the initial selected segment to be the first one
         tipControl.selectedSegmentIndex = 0
         
-        // Set the initial tipPercent
-        //defaults.set(tipPercentages[0], forKey: tipKey)
-        
         // Set the rounded tip/total and split check option to false
         defaults.set(false, forKey: roundedKey)
         defaults.set(false, forKey: splitKey)
-        
         defaults.synchronize()
         
     }
@@ -83,6 +96,7 @@ class ViewController: UIViewController {
         view.endEditing(true)
     }
     
+    // Shows the split check labels
     func showSplitLabels(){
         splitPersonLabel.isHidden = false
         splitTotalLabel.isHidden = false
@@ -90,6 +104,7 @@ class ViewController: UIViewController {
         splitTotalValue.isHidden = false
     }
     
+    // Hides the split check labels
     func hideSplitLabels(){
         splitPersonLabel.isHidden = true
         splitTotalLabel.isHidden = true
@@ -101,21 +116,31 @@ class ViewController: UIViewController {
         
         // ?? checks if text is valid - if not, return 0
         let bill = Double(billField.text!) ?? 0
+        
+        // Calculate the normal tip/total
         let tip = (bill * tipPercent)
         let total = bill + tip
+        
+        // Calculate the rounded tip/total
         let roundedTotal = round(total)
         let roundedTip = roundedTotal - bill
+        
+        // Get the number of times the total will be split
         var numOfSplits = Double(splitField.text!) ?? 1
         
+        // If the split number is invalid, set it to be 1
         if(numOfSplits < 1){
             numOfSplits = 1
         }
         
+        // Calculate the split total and rounded split total
         let splitTotal = (ceil((total * 100)/numOfSplits))/100
         let roundedSplitTotal = (ceil((roundedTotal * 100)/numOfSplits))/100
         
+        // Load the rounded boolean value
         let rounded = defaults.bool(forKey: roundedKey)
         
+        // Set the labels to the rounded/normal values depending on the rounded boolean value
         if(rounded){
             tipTitle.text = "Tip (Rounded)"
             totalTitle.text = "Total (Rounded)"
@@ -146,6 +171,7 @@ class ViewController: UIViewController {
         defaults.synchronize()
     }
     
+    // Recalculate the total if the number of splits changed
     @IBAction func splitPersonsChange(_ sender: Any) {
         calculateTip(self)
     }
@@ -160,7 +186,7 @@ class ViewController: UIViewController {
         var custom2 = defaults.double(forKey: customTipKey2)
         var custom3 = defaults.double(forKey: customTipKey3)
         
-        // If any tip percentages are 0%, set them to the default tipPercentages
+        // If any tip percentages are 0%, set them to the default tip percentages
         if(custom1 == 0){
             custom1 = tipPercentages[0]
         }
@@ -178,6 +204,13 @@ class ViewController: UIViewController {
         
         // Load the default tip key
         tipPercent = defaults.double(forKey: tipKey)
+        
+        // If tipPercent is 0, set it to default tip value 0.15 and save it
+        if(tipPercent == 0){
+            tipPercent = 0.15
+            defaults.set(tipPercent, forKey: tipKey)
+            defaults.synchronize()
+        }
         
         // Set the selected tipControl segment
         if(tipPercent == tipPercentages[0]){
