@@ -20,7 +20,7 @@ The following **optional** features are implemented:
 * [X] Making sure the keyboard is always visible and the bill amount is always the first responder. This way the user doesn't have to tap anywhere to use this app. Just launch the app and start typing.
 
 The following **additional** features are implemented:
-* [X] Changing the possible tip percentages and remembering them across app restarts.
+* [X] Changing the tip percentages and remembering them across app restarts.
 * [X] Added a rounded tip/total option that will show the tip/total rounded to the nearest dollar.
 * [X] Added a split check option that will calculate the total split between people.
 * [X] Added color themes
@@ -30,7 +30,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+file:///Users/bigmak712/Documents/tipCalculatorDemo2.gif 
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
@@ -40,7 +40,7 @@ Describe any challenges encountered while building the app.
 
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright [2017] [Timothy Mak]
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
